@@ -90,6 +90,7 @@ with col55:
     pass
 
 if cook:
-    nav_page("cook", 100)
+    # nav_page("cook", 100)
+    st.experimental_set_query_params(page="cook")
 if eat_out:
     nav_page("out", 100)
