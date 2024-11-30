@@ -1,85 +1,95 @@
 import streamlit as st
+from streamlit.components.v1 import html
+from PIL import Image
 
-pg = st.navigation([st.Page("streamlit_app.py"),st.Page("out.py"), st.Page("cook.py")])
 
-# st.sidebar.selectbox("Group", ["A","B","C"], key="group")
 
-pg.run()
+# pg = st.navigation([st.Page("out.py"), st.Page("cook.py")])
 
-# import streamlit as st
-# import os
-# from dotenv import load_dotenv
-# from authlib.integrations.requests_client import OAuth2Session
-# from urllib.parse import urlencode
+# pg.run()
 
-# # Load environment variables from .env file
-# load_dotenv()
 
-# # Auth0 configurations from environment variables
-# AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
-# AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID")
-# AUTH0_CLIENT_SECRET = os.getenv("AUTH0_CLIENT_SECRET")
-# AUTH0_CALLBACK_URL = os.getenv("AUTH0_CALLBACK_URL")
+def nav_page(page_name, timeout_secs=1):
+    nav_script = """
+        <script type="text/javascript">
+            function attempt_nav_page(page_name, start_time, timeout_secs) {
+                var links = window.parent.document.getElementsByTagName("a");
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i].href.toLowerCase().endsWith("/" + page_name.toLowerCase())) {
+                        links[i].click();
+                        return;
+                    }
+                }
+                var elasped = new Date() - start_time;
+                if (elasped < timeout_secs * 1000) {
+                    setTimeout(attempt_nav_page, 100, page_name, start_time, timeout_secs);
+                } else {
+                    alert("Unable to navigate to page '" + page_name + "' after " + timeout_secs + " second(s).");
+                }
+            }
+            window.addEventListener("load", function() {
+                attempt_nav_page("%s", new Date(), %d);
+            });
+        </script>
+    """ % (page_name, timeout_secs)
+    html(nav_script)
 
-# # Auth0 Authorization and Token URLs
-# AUTHORIZATION_URL = f"https://{AUTH0_DOMAIN}/authorize"
-# TOKEN_URL = f"https://{AUTH0_DOMAIN}/oauth/token"
-# USERINFO_URL = f"https://{AUTH0_DOMAIN}/userinfo"
+#removes side bar
+st.set_page_config(initial_sidebar_state="collapsed", page_title="Design the Meal for Me Please", layout="centered")
+no_sidebar_style = """
+    <style>
+        div[data-testid="stSidebarNav"] {display: none;}
+    </style>
+"""
+st.markdown(no_sidebar_style, unsafe_allow_html=True)
 
-# # Initialize OAuth2 session
-# oauth = OAuth2Session(AUTH0_CLIENT_ID, AUTH0_CLIENT_SECRET, redirect_uri=AUTH0_CALLBACK_URL)
+# Header
+st.markdown("<h1 style='text-align: center; color: black; line-height: 60%;'>Design a meal for me please</h1>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: center; color: grey; line-height: normal;'>Maximize your ingredients, minimize waste, and simplify meal planning</h4>", unsafe_allow_html=True)
 
-# # Check if the user is logged in
-# if "user" not in st.session_state:
-#     st.session_state.user = None
+# Layout with icons and buttons
+col1, col2 = st.columns(2)
 
-# # Function to handle the login flow
-# def login():
-#     # Step 1: Generate the authorization URL
-#     authorization_url, state = oauth.create_authorization_url(AUTHORIZATION_URL)
+#button
+st.markdown(
+    """
+<style>
+button {
+    height: 30px;
+    padding: 10px 38px !important
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
 
-#     # Redirect the user to the Auth0 login page
-#     st.write(f"Please [log in]({authorization_url})")
+with col1:
+    with st.container():
+        image = Image.open("./Baking.png")
+        new_image = image.resize((388, 388))
+        st.image(new_image)
+with col2:
+    with st.container():
+        image = Image.open("./Restaurant.png")
+        new_image = image.resize((388, 388))
+        st.image(new_image)
 
-# # Function to handle the logout
-# def logout():
-#     st.session_state.user = None
-#     st.write("You are logged out.")
 
-# # Callback function to handle the Auth0 redirect
-# def callback():
-#     # Step 2: Fetch the access token
-#     token = oauth.fetch_token(TOKEN_URL, authorization_response=st.experimental_get_query_params())
 
-#     # Step 3: Retrieve the user info
-#     user_info = oauth.get(USERINFO_URL).json()
+col11, col22, col33, col44, col55 = st.columns(5)
 
-#     # Store the user info in session state
-#     st.session_state.user = user_info
-#     st.write(f"Logged in as: {user_info['name']}")
+with col11:
+    pass
+with col22:
+    cook = st.button("Cook", key="cook_button", type="primary")
+with col33:
+    pass
+with col44:
+    eat_out = st.button("Eat Out", key="eat_out_button", type="primary")
+with col55:
+    pass
 
-# # Main Streamlit app logic
-# def main():
-#     st.title("🎈 My Streamlit App with Auth0")
-
-#     # Show login/logout based on session state
-#     if st.session_state.user is None:
-#         login()  # Prompt for login if not logged in
-#     else:
-#         st.write(f"Welcome, {st.session_state.user['name']}!")
-#         st.button("Logout", on_click=logout)  # Logout button
-
-#     # Example of using the login status
-#     if st.session_state.user:
-#         st.write("User Data:", st.session_state.user)
-
-# # Check if this is a callback URL
-# query_params = st.query_params()
-
-# # If there is an `code` query parameter, handle the callback (successful login)
-# if "code" in query_params:
-#     callback()
-
-# else:
-#     # Otherwise, show the main page
-#     main()
+if cook:
+    nav_page("cook", 1)
+if eat_out:
+    nav_page("out", 1)
