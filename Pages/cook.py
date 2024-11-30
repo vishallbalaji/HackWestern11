@@ -76,3 +76,5 @@ for message in st.session_state.chat_history:
 if st.button("End Conversation"):
     st.write("Conversation has ended.")
     st.session_state.chat_history = []  # Clear the chat history
+
+st.page_link("streamlit_app.py", label="Home", icon="🏠")
