@@ -90,6 +90,6 @@ with col55:
     pass
 
 if cook:
-    nav_page("cook", 1)
+    nav_page("cook", 100)
 if eat_out:
-    nav_page("out", 1)
+    nav_page("out", 100)
