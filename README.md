@@ -19,6 +19,14 @@ Streamlit(Python)
 Voiceflow API  
 foursquare API
 
+## python packages installed
+
+geopy
+json
+re
+requests
+
+
 
 ## How to run it on your own machine
 
