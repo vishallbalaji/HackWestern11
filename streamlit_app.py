@@ -35,7 +35,7 @@ def nav_page(page_name, timeout_secs=1):
     html(nav_script)
 
 #removes side bar
-st.set_page_config(initial_sidebar_state="collapsed", page_title="Design the Meal for Me Please", layout="centered")
+st.set_page_config(initial_sidebar_state="collapsed", page_title="Mealami", layout="centered", page_icon="🍴")
 no_sidebar_style = """
     <style>
         div[data-testid="stSidebarNav"] {display: none;}
@@ -44,8 +44,8 @@ no_sidebar_style = """
 st.markdown(no_sidebar_style, unsafe_allow_html=True)
 
 # Header
-st.markdown("<h1 style='text-align: center; color: black; line-height: 60%;'>Design a meal for me please</h1>", unsafe_allow_html=True)
-st.markdown("<h4 style='text-align: center; color: grey; line-height: normal;'>Maximize your ingredients, minimize waste, and simplify meal planning</h4>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: black; line-height: 60%;'>Mealami</h1>", unsafe_allow_html=True)
+st.markdown("<h6 style='text-align: center; color: grey; line-height: normal;'>Maximize your ingredients, minimize waste, and simplify meal planning.</h4>", unsafe_allow_html=True)
 
 # Layout with icons and buttons
 col1, col2 = st.columns(2)
@@ -66,12 +66,12 @@ button {
 with col1:
     with st.container():
         image = Image.open("./Baking.png")
-        new_image = image.resize((388, 388))
+        new_image = image.resize((320, 320))
         st.image(new_image)
 with col2:
     with st.container():
         image = Image.open("./Restaurant.png")
-        new_image = image.resize((388, 388))
+        new_image = image.resize((320, 320))
         st.image(new_image)
 
 
