@@ -17,6 +17,7 @@ Get receipe for your food in the fridge or get some idea about going out.
 
 Streamlit(Python)    
 Voiceflow API
+foursquare API
 
 
 ## How to run it on your own machine
