@@ -1,7 +1,7 @@
 # 🎈 Design the Meal for Me Please
 
-A Streamlit App embedded with Voiceflow API!
-
+A meal designer web app  
+A Streamlit App embedded with Voiceflow API!  
 
 
 ## Project
