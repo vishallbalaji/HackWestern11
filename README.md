@@ -21,10 +21,9 @@ foursquare API
 
 ## python packages installed
 
-geopy
-json
-re
-requests
+geopy  
+json  
+requests  
 
 
 
