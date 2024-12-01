@@ -1,11 +1,11 @@
 import streamlit as st
 import requests
-# import speech_recognition as sr
+import speech_recognition as sr
 import tempfile
 
 # Constants for Voiceflow API
 PROJECT_ID = "674aa3851f89e3926fa7fbe8"
-API_KEY = "VF.DM.674b34d8b282b73cf09600d7.CQMQFNo9YGXfWhiy"
+API_KEY = "VF.DM.674b34d8b282b73cf09600d7.iAhm0CMqJVlnsVQ8"
 VOICEFLOW_URL = f"https://general-runtime.voiceflow.com/state/{PROJECT_ID}/interact"
 
 # Voiceflow interaction function
@@ -33,15 +33,6 @@ def interact(user_id, user_input):
     except Exception as e:
         return [f"Error parsing response: {e}"]
 
-# Initialize session state for chat history and intermediate input
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-
-if "user_id" not in st.session_state:
-    st.session_state.user_id = "unique_user_id"  # Generate a unique user ID per session
-
-if "temp_input" not in st.session_state:
-    st.session_state.temp_input = ""
 
 # Function to handle sending messages
 def send_message(user_message):
@@ -58,49 +49,75 @@ def send_message(user_message):
         for bot_response in bot_responses:
             st.session_state.chat_history.append(f"Bot: {bot_response}")
             st.write(bot_response)
-            
+
         st.session_state.temp_input = ""
 
-# Text input for user message
+
+
+def transcribe_audio(audio_file_path):
+    recognizer = sr.Recognizer()
+    with sr.AudioFile(audio_file_path) as source:
+        audio_data = recognizer.record(source)  # Read the entire audio file
+    try:
+        return recognizer.recognize_google(audio_data)  # Transcribe using Google API
+    except sr.UnknownValueError:
+        return "Could not understand the audio."
+    except sr.RequestError as e:
+        return f"Speech Recognition error: {e}"
+
+
+
+# Initialize session state for chat history and intermediate input
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+if "user_id" not in st.session_state:
+    st.session_state.user_id = "unique_user_id"  # Generate a unique user ID per session
+
+if "temp_input" not in st.session_state:
+    st.session_state.temp_input = ""
+
+
 st.text_input(
     "You: ",
     key="temp_input",  # Use a separate key for temporary input
-    on_change=lambda: send_message(st.session_state.temp_input),  # Pass the input as an argument
+    on_change=lambda: send_message(st.session_state.temp_input)  # Pass the input as an argument
 )
 
+if st.button("Record Audio"):
+    st.info("Recording... Please wait.")
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        try:
+            audio_data = recognizer.listen(source, timeout=5)  # Listen for 5 seconds
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
+                temp_audio.write(audio_data.get_wav_data())  # Save as WAV file
+                temp_audio_path = temp_audio.name
+
+            # Transcribe audio and send to chatbot
+            transcription = transcribe_audio(temp_audio_path)
+            st.write(transcription)
+            if transcription:  # Ensure transcription is valid before sending
+                st.session_state.chat_history.append(f"You (Voice): {transcription}")
+                bot_responses = interact(st.session_state.user_id, transcription)
+                for bot_response in bot_responses:
+                    st.session_state.chat_history.append(f"Bot: {bot_response}")
+                    st.write(bot_response)
+
+        except Exception as e:
+            st.error(f"Error during recording: {e}")
+
+
+# # Text input for user message
+# st.text_input(
+#     "You: ",
+#     key="temp_input",  # Use a separate key for temporary input
+#     on_change=lambda: send_message(st.session_state.temp_input),  # Pass the input as an argument
+# )
 
 
 # Display chat history
 
-
-# def transcribe_audio(audio_file_path):
-#     recognizer = sr.Recognizer()
-#     with sr.AudioFile(audio_file_path) as source:
-#         audio_data = recognizer.record(source)  # Read the entire audio file
-#     try:
-#         return recognizer.recognize_google(audio_data)  # Transcribe using Google API
-#     except sr.UnknownValueError:
-#         return "Could not understand the audio."
-#     except sr.RequestError as e:
-#         return f"Speech Recognition error: {e}"
-    
-# if st.button("Record Audio"):
-#     st.info("Recording... Please wait.")
-#     recognizer = sr.Recognizer()
-#     with sr.Microphone() as source:
-#         try:
-#             audio_data = recognizer.listen(source, timeout=5)  # Listen for 5 seconds
-#             with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
-#                 temp_audio.write(audio_data.get_wav_data())  # Save as WAV file
-#                 temp_audio_path = temp_audio.name
-
-#             # Transcribe audio and send to chatbot
-#             transcription = transcribe_audio(temp_audio_path)
-#             st.write(transcription)
-#             send_message(transcription)  # Fixed to call the updated function
-
-#         except Exception as e:
-#             st.error(f"Error during recording: {e}")
 
 st.subheader("Chat History")
 for message in st.session_state.chat_history:
@@ -109,3 +126,5 @@ for message in st.session_state.chat_history:
 if st.button("End Conversation"):
     st.write("Conversation has ended.")
     st.session_state.chat_history = []  # Clear the chat history
+
+st.page_link("streamlit_app.py", label="Home", icon="🏠")
