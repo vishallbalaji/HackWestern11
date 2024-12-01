@@ -89,7 +89,7 @@ if st.button("Record Audio"):
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
         try:
-            audio_data = recognizer.listen(source, timeout=5)  # Listen for 5 seconds
+            audio_data = recognizer.listen(source, timeout=3)  # Listen for 5 seconds
             with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
                 temp_audio.write(audio_data.get_wav_data())  # Save as WAV file
                 temp_audio_path = temp_audio.name
