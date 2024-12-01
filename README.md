@@ -16,7 +16,7 @@ Get receipe for your food in the fridge or get some idea about going out.
 ## Framework and tools
 
 Streamlit(Python)    
-Voiceflow API
+Voiceflow API  
 foursquare API
 
 
