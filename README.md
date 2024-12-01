@@ -5,6 +5,11 @@ A Streamlit App embedded with Voiceflow API!
 
 
 ### Project
+
+## Idea
+From cooking icons from Streamlit! Also something struggles us everyday!
+
+## Purpose
 If you do not know what to have for breakfast, lunch, or dinner, this is the tool for you!  
 Get receipe for your food in the fridge or get some idea about going out.
 
