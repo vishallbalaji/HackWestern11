@@ -3,9 +3,10 @@ import pandas as pd
 import numpy as np
 from get_restaurants import get_restaurants,get_coordinates,check_and_remove_parentheses
 
+st.set_page_config(initial_sidebar_state="collapsed", page_title="Mealami-out", layout="centered", page_icon="🚗")
 
 st.title("Search for restaurant")
-cityinput = st.text_input("Enter a city 👇",placeholder='City')
+cityinput = st.text_input("Enter a city and province 👇",placeholder='City')
 citytude = get_coordinates(cityinput)
 
 

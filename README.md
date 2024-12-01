@@ -23,7 +23,9 @@ foursquare API
 
 geopy  
 json  
-requests  
+requests   
+pyaudio  
+SpeechRecognition
 
 
 
@@ -35,8 +37,13 @@ requests
    $ pip install -r requirements.txt
    ```
 
-2. Run the app
+2. Run the app  
 
    ```
    $ streamlit run streamlit_app.py
+   ```
+
+On windows terminal
+   ```
+   $ python -m streamlit run streamlit_app.py
    ```

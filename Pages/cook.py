@@ -8,6 +8,8 @@ PROJECT_ID = "674aa3851f89e3926fa7fbe8"
 API_KEY = "VF.DM.674b34d8b282b73cf09600d7.iAhm0CMqJVlnsVQ8"
 VOICEFLOW_URL = f"https://general-runtime.voiceflow.com/state/{PROJECT_ID}/interact"
 
+st.set_page_config(initial_sidebar_state="collapsed", page_title="Mealami-cook", layout="centered", page_icon="🍳")
+
 # Voiceflow interaction function
 def interact(user_id, user_input):
     """Send a message to Voiceflow and receive a response."""
