@@ -1,7 +1,30 @@
 import requests
 import json
+import ssl
+from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderServiceError
+import re
 
-
+def get_coordinates(address):
+    geolocator = Nominatim(user_agent="geoapi", timeout=10)
+    try:
+        ssl._create_default_https_context = ssl._create_unverified_context
+        location = geolocator.geocode(address)
+        if location:
+            return location.latitude, location.longitude
+        else:
+            return None
+    except GeocoderServiceError as e:
+        print(f"Geocoding error: {e}")
+        return None
+    
+def check_and_remove_parentheses(text):
+    """Check if the text contains parentheses, and if so, remove them and their content."""
+    if "(" in text and ")" in text:  
+        return re.sub(r"\([^)]*\)", "", text)  
+    else:
+        return text  
+    
 def get_restaurants():
   restaurents = []
   url = "https://api.foursquare.com/v3/places/search?ll=42.9849%2C-81.2453&radius=40000&categories=13065"
