@@ -25,9 +25,9 @@ def check_and_remove_parentheses(text):
     else:
         return text  
     
-def get_restaurants():
+def get_restaurants(la,lo):
   restaurents = []
-  url = "https://api.foursquare.com/v3/places/search?ll=42.9849%2C-81.2453&radius=40000&categories=13065"
+  url = f"https://api.foursquare.com/v3/places/search?ll={la}%2C{lo}&radius=40000&categories=13065"
 
   headers = {
     'Content-Type': 'application/json',

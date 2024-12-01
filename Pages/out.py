@@ -5,9 +5,14 @@ from get_restaurants import get_restaurants,get_coordinates,check_and_remove_par
 
 
 st.title("Search for restaurant")
+cityinput = st.text_input("Enter a city 👇",placeholder='City')
+citytude = get_coordinates(cityinput)
 
-if st.button("Get restaurants"):
-    get = get_restaurants()
+
+if st.button("Get restaurants") and cityinput is not None:
+    la = citytude[0]
+    lo = citytude[1]
+    get = get_restaurants(la,lo)
     lat = []
     lon = []
     df = pd.DataFrame(get)
