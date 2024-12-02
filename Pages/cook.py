@@ -64,8 +64,6 @@ def send_message(user_message):
 
         st.session_state.temp_input = ""
 
-
-
 def transcribe_audio(audio_file_path):
     recognizer = sr.Recognizer()
     with sr.AudioFile(audio_file_path) as source:
@@ -76,8 +74,6 @@ def transcribe_audio(audio_file_path):
         return "Could not understand the audio."
     except sr.RequestError as e:
         return f"Speech Recognition error: {e}"
-
-
 
 # Initialize session state for chat history and intermediate input
 if "chat_history" not in st.session_state:
@@ -118,18 +114,6 @@ if st.button("Record Audio"):
 
         except Exception as e:
             st.error(f"Error during recording: {e}")
-
-
-# # Text input for user message
-# st.text_input(
-#     "You: ",
-#     key="temp_input",  # Use a separate key for temporary input
-#     on_change=lambda: send_message(st.session_state.temp_input),  # Pass the input as an argument
-# )
-
-
-# Display chat history
-
 
 st.subheader("Chat History")
 for message in st.session_state.chat_history:
