@@ -13,6 +13,9 @@ From cooking icons from Streamlit! Also something struggles us everyday!
 If you do not know what to have for breakfast, lunch, or dinner, this is the tool for you!  
 Get receipe for your food in the fridge or get some idea about going out.
 
+## Projects I Contributed To
+- [Mealami](https://github.com/Angelchen17/hw11): Contributed to the cook.py file and programmed through the streamlit api. Created the chat and voice input features, integrated the voiceflow api and linked it to a recipe database to extract information so that when provided a list of ingredients, it displays a list of all recipes and if prompted with a specific recipe it displays the steps needed to make it.
+ 
 ## Framework and tools
 
 Streamlit(Python)    
